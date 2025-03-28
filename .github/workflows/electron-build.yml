@@ -34,7 +34,7 @@ jobs:
           npm run package
 
       - name: Upload release artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v2
         with:
           name: electron-binaries
           path: dist/**/*

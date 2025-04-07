@@ -48,6 +48,8 @@ jobs:
 
       - name: Build the Electron app
         run: npm run build  # Assuming you have a build script for Electron
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}  # Pass the GH_TOKEN from secrets to npm run build
 
       - name: Package the Electron app
         run: npm run package  # Assuming you have a packaging script

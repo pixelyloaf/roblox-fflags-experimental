@@ -101,7 +101,7 @@ added by @pixelyloaf
 ### Max Raycast Distance
 added by @pixelyloaf
 > [!NOTE]
-> **Raycasting is the use of intersection tests to solve problems in Roblox. The most common use of raycasting is to determine the first object intersected by a ray. This is done by casting a virtual ray from a certain point in a direction and determining the first surface it intersected with.**
+> **Raycasting is the use of intersection tests to solve problems in Roblox. The most common use of raycasting is to determine the first object intersected by a ray. This is done by casting a virtual ray from a certain point in a direction and determing the first surface it intersected with.**
 
 > [!TIP]
 > **Break legs collision from 2 to -inf, kinda break camera on values over 3 noclip cam on 3**
@@ -142,9 +142,10 @@ added by @pixelyloaf
 ```
 ### Invisible 1
 added by @pixelyloaf
+
 moved by @venkeyz
 > [!NOTE]
-> Stops the physics on your character from sending to the server so your character doesn't move for the server. You can move on your client.
+> Stops the physics on your character from sending to the server so your character doesnt move for the server. You can move on your client.
 ```json
 {
     "DFIntS2PhysicsSenderRate": "-30"
@@ -152,6 +153,7 @@ moved by @venkeyz
 ```
 ### Invisible 2
 added by @pixelyloaf
+
 moved by @venkeyz
 > [!NOTE]
 > Locks your character's position on the server to (0, 0, 0), having the side effect of turning you invisible. This only affects the server and other clients, not you. server-sided things that rely on your position, like clicking to get tools, will not function. In some games these can be abusable.

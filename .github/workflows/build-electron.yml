@@ -1,0 +1,46 @@
+name: Build Retype Electron App
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Checkout main branch
+      uses: actions/checkout@v3
+
+    - name: Pull retype-deploy branch content
+      run: |
+        git clone --branch retype-deploy --depth 1 https://github.com/${{ github.repository }} retype-deploy
+        mv retype-deploy/assets .
+        mv retype-deploy/fastflags .
+        mv retype-deploy/help .
+        mv retype-deploy/logs .
+        mv retype-deploy/resources .
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: |
+        npm install
+
+    - name: Build App
+      run: |
+        npm run build
+
+    - name: Upload installer
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ runner.os }}-installer
+        path: dist/*

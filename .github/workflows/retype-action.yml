@@ -80,7 +80,7 @@ jobs:
           # Add only .jpg image files from the assets folder
           if [ -d "assets" ]; then git add assets/*.jpg; fi
           if [ -d "fastflags" ]; then git add fastflags/**/*; fi
-          if [ -d "help" ]; then git add help/**/*; fi
+          if [ -d "help" ]; then git add help/**/**/*; fi  # Add all files recursively from help
           if [ -d "logs" ]; then git add logs/**/*; fi
           
           git commit -m "Add Electron build artifacts"

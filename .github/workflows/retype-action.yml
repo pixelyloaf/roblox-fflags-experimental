@@ -1,3 +1,11 @@
+name: Build and Publish Electron App
+
+on:
+  push:
+    branches:
+      - main  # Run this workflow when changes are pushed to the main branch
+  workflow_dispatch:  # Allows you to manually trigger this workflow from GitHub's UI
+
 jobs:
   build_electron_app:
     name: Build and Package Electron App

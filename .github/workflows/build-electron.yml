@@ -42,10 +42,10 @@ jobs:
     - name: Verify dist contents
       run: |
         echo "Checking dist directory"
-        ls -alh dist/  # Check if files are generated in the dist folder
+        ls -alh dist/
 
     - name: Upload installer
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v2  # Falling back to v2
       with:
         name: ${{ runner.os }}-installer
         path: dist/*

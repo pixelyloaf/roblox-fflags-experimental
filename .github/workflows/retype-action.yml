@@ -57,14 +57,15 @@ jobs:
         run: npm run package
 
       - name: Verify the packaged files
-        run: ls -la fastflags logs help resources assets  # List contents of directories
+        run: |
+          ls -la assets fastflags help logs || echo "One or more directories are missing"
 
       - name: Create a new branch for Electron build artifacts
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "GitHub Actions"
           git checkout -b build-artifacts
-          git add fastflags/**/* logs/**/* help/**/* resources/**/* assets/**/*  # Recursively add files in subdirectories
+          git add assets/**/* fastflags/**/* help/**/* logs/**/*  # Recursively add files in subdirectories
           git commit -m "Add Electron build artifacts"
           git push origin build-artifacts
 

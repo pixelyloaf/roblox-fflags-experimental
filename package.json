@@ -1,35 +1,16 @@
 {
   "name": "roblox-fflags",
   "version": "1.0.0",
-  "description": "collection of roblox fflagsr",
+  "description": "Roblox FFlag Editor",
   "main": "index.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-builder"
-  },
-  "build": {
-    "appId": "com.loaf.robloxfflags",
-    "productName": "robloxfflags",
-    "files": [
-      "**/*",
-      "!**/node_modules/*/{test,__tests__,example}/**"
-    ],
-    "extraResources": [
-      "assets",
-      "fastflags",
-      "help",
-      "logs",
-      "resources"
-    ],
-    "win": {
-      "target": "nsis"
-    },
-    "linux": {
-      "target": "AppImage"
-    }
+    "build": "electron-builder",
+    "package": "electron-builder --dir",
+    "release": "electron-builder --publish always"
   },
   "devDependencies": {
-    "electron": "^29.0.0",
-    "electron-builder": "^24.6.0"
+    "electron": "^29.4.6",
+    "electron-builder": "^24.13.3"
   }
 }

@@ -8,8 +8,11 @@ on:
 
 jobs:
   build_retype_site:
-    name: Build Retype-powered website
+    name: Build and Publish Retype-powered Website to GitHub Pages
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repository
@@ -23,14 +26,10 @@ jobs:
       - name: Build the Retype website
         uses: retypeapp/action-build@latest
 
-      - name: Push Retype site to retype branch
-        run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"  # GitHub Actions bot email
-          git config --global user.name "GitHub Actions"  # GitHub Actions bot name
-          git checkout -b retype
-          git add .  # Add all the generated Retype files
-          git commit -m "Build Retype-powered website"
-          git push origin retype
+      - name: Publish the Retype site to GitHub Pages
+        uses: retypeapp/action-github-pages@latest
+        with:
+          update-branch: true  # Automatically push changes to the `retype` branch
 
   build_electron_app:
     name: Build and Package Electron App
@@ -62,8 +61,8 @@ jobs:
 
       - name: Create a new branch for Electron build artifacts
         run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"  # GitHub Actions bot email
-          git config --global user.name "GitHub Actions"  # GitHub Actions bot name
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "GitHub Actions"
           git checkout -b build-artifacts
           git add fastflags/**/* logs/**/* help/**/* resources/**/* assets/**/*  # Recursively add files in subdirectories
           git commit -m "Add Electron build artifacts"

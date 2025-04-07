@@ -60,12 +60,29 @@ jobs:
         run: |
           ls -la assets fastflags help logs || echo "One or more directories are missing"
 
+      - name: List files in directories
+        run: |
+          echo "Listing contents of the assets directory:"
+          find assets || echo "No files in assets"
+          echo "Listing contents of the fastflags directory:"
+          find fastflags || echo "No files in fastflags"
+          echo "Listing contents of the help directory:"
+          find help || echo "No files in help"
+          echo "Listing contents of the logs directory:"
+          find logs || echo "No files in logs"
+
       - name: Create a new branch for Electron build artifacts
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "GitHub Actions"
           git checkout -b build-artifacts
-          git add assets/**/* fastflags/**/* help/**/* logs/**/*  # Recursively add files in subdirectories
+
+          # Add only image files from the assets folder (ignores HTML or other types)
+          if [ -d "assets" ]; then git add assets/*.{jpg,jpeg,png}; fi
+          if [ -d "fastflags" ]; then git add fastflags/**/*; fi
+          if [ -d "help" ]; then git add help/**/*; fi
+          if [ -d "logs" ]; then git add logs/**/*; fi
+          
           git commit -m "Add Electron build artifacts"
           git push origin build-artifacts
 

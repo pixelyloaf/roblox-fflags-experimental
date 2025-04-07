@@ -25,6 +25,8 @@ jobs:
 
       - name: Push Retype site to retype branch
         run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"  # GitHub Actions bot email
+          git config --global user.name "GitHub Actions"  # GitHub Actions bot name
           git checkout -b retype
           git add .  # Add all the generated Retype files
           git commit -m "Build Retype-powered website"
@@ -60,6 +62,8 @@ jobs:
 
       - name: Create a new branch for Electron build artifacts
         run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"  # GitHub Actions bot email
+          git config --global user.name "GitHub Actions"  # GitHub Actions bot name
           git checkout -b build-artifacts
           git add fastflags/**/* logs/**/* help/**/* resources/**/* assets/**/*  # Recursively add files in subdirectories
           git commit -m "Add Electron build artifacts"

@@ -77,12 +77,18 @@ jobs:
           git config --global user.name "GitHub Actions"
           git checkout -b build-artifacts
 
-          # Add only .jpg image files from the assets folder
+          # Add files from the assets folder if it exists and contains JPG files
           if [ -d "assets" ]; then git add assets/*.jpg; fi
-          if [ -d "fastflags" ]; then git add fastflags/**/*; fi
-          if [ -d "help" ]; then git add help/**/**/*; fi  # Add all files recursively from help
-          if [ -d "logs" ]; then git add logs/**/*; fi
           
+          # Add files from the fastflags folder
+          if [ -d "fastflags" ]; then git add fastflags/**/*; fi
+
+          # Add files from the help folder (including subdirectories)
+          if [ -d "help" ]; then git add help/*; fi
+
+          # Add files from the logs folder
+          if [ -d "logs" ]; then git add logs/**/*; fi
+
           git commit -m "Add Electron build artifacts"
           git push origin build-artifacts
 

@@ -2,50 +2,44 @@ name: Build Retype Electron App
 
 on:
   push:
-    branches: [main]
-  workflow_dispatch:
+    branches:
+      - retype  # Trigger on changes to the retype branch
 
 jobs:
   build:
-    strategy:
-      matrix:
-        os: [windows-latest, ubuntu-latest]
-
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout main branch
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Pull retype-deploy branch content
-      run: |
-        git clone --branch retype-deploy --depth 1 https://github.com/${{ github.repository }} retype-deploy
-        mv retype-deploy/assets .
-        mv retype-deploy/fastflags .
-        mv retype-deploy/help .
-        mv retype-deploy/logs .
-        mv retype-deploy/resources .
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'  # Use the Node.js version Retype supports
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
+      - name: Install dependencies
+        run: |
+          npm install  # Install project dependencies (including Retype and Electron)
 
-    - name: Install dependencies
-      run: |
-        npm install
+      - name: Install Retype CLI
+        run: |
+          npm install -g @retype/cli  # Install the Retype CLI globally
 
-    - name: Build App
-      run: |
-        npm run build
+      - name: Build Retype Site
+        run: |
+          retype build  # Build your Retype site
 
-    - name: Verify dist contents
-      run: |
-        echo "Checking dist directory"
-        ls -alh dist/
+      - name: Install Electron
+        run: |
+          npm install electron --save-dev  # Install Electron
 
-    - name: Upload installer
-      uses: actions/upload-artifact@v2  # Falling back to v2
-      with:
-        name: ${{ runner.os }}-installer
-        path: dist/*
+      - name: Build Electron App
+        run: |
+          npx electron-builder --mac --win --linux  # This will build for macOS, Windows, and Linux
+          
+      - name: Upload Electron App Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: electron-app
+          path: dist/  # This assumes the built app is in the `dist/` folder

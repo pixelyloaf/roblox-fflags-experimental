@@ -39,8 +39,10 @@ jobs:
       run: |
         npm run build
 
-    - name: Check dist contents
-      run: ls -alh dist/
+    - name: Verify dist contents
+      run: |
+        echo "Checking dist directory"
+        ls -alh dist/  # Check if files are generated in the dist folder
 
     - name: Upload installer
       uses: actions/upload-artifact@v3

@@ -77,8 +77,8 @@ jobs:
           git config --global user.name "GitHub Actions"
           git checkout -b build-artifacts
 
-          # Add only image files from the assets folder (ignores HTML or other types)
-          if [ -d "assets" ]; then git add assets/*.{jpg,jpeg,png}; fi
+          # Add only .jpg image files from the assets folder
+          if [ -d "assets" ]; then git add assets/*.jpg; fi
           if [ -d "fastflags" ]; then git add fastflags/**/*; fi
           if [ -d "help" ]; then git add help/**/*; fi
           if [ -d "logs" ]; then git add logs/**/*; fi

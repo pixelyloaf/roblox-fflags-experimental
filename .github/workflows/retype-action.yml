@@ -1,4 +1,4 @@
-name: Build and Publish Electron App
+name: Build and Publish Retype-powered Electron App
 
 on:
   push:
@@ -7,6 +7,29 @@ on:
   workflow_dispatch:  # Allows you to manually trigger this workflow from GitHub's UI
 
 jobs:
+  build_retype_site:
+    name: Build Retype-powered website
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 7.0.x
+
+      - name: Build the Retype website
+        uses: retypeapp/action-build@latest
+
+      - name: Push Retype site to retype branch
+        run: |
+          git checkout -b retype
+          git add .  # Add all the generated Retype files
+          git commit -m "Build Retype-powered website"
+          git push origin retype
+
   build_electron_app:
     name: Build and Package Electron App
     runs-on: ubuntu-latest

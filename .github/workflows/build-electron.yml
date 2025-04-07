@@ -39,6 +39,9 @@ jobs:
       run: |
         npm run build
 
+    - name: Check dist contents
+      run: ls -alh dist/
+
     - name: Upload installer
       uses: actions/upload-artifact@v3
       with:

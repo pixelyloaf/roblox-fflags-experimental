@@ -3,3 +3,6 @@ contact_links:
   - name: Discord Support
     url: https://discord.gg/aRfvVfYk8q
     about: discord support here
+  - name: Matrix Support
+    url: https://matrix.to/#/#roblox-fflags:matrix.org
+    about: matrix support here

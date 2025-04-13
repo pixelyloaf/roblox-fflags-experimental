@@ -1,102 +1,28 @@
-name: Build and Publish Retype-powered Electron App
-
+name: Publish Retype powered website to GitHub Pages
 on:
+  workflow_dispatch:
   push:
     branches:
-      - main  # Run this workflow when changes are pushed to the main branch
-  workflow_dispatch:  # Allows you to manually trigger this workflow from GitHub's UI
+      - main
 
 jobs:
-  build_retype_site:
-    name: Build and Publish Retype-powered Website to GitHub Pages
+  publish:
+    name: Publish to retype branch
+
     runs-on: ubuntu-latest
 
     permissions:
       contents: write
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v1
+      - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 7.0.x
 
-      - name: Build the Retype website
-        uses: retypeapp/action-build@latest
+      - uses: retypeapp/action-build@latest
 
-      - name: Publish the Retype site to GitHub Pages
-        uses: retypeapp/action-github-pages@latest
+      - uses: retypeapp/action-github-pages@latest
         with:
-          update-branch: true  # Automatically push changes to the `retype` branch
-
-  build_electron_app:
-    name: Build and Package Electron App
-    runs-on: ubuntu-latest
-    needs: build_retype_site  # Ensure Retype site build is completed first
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build the Electron app
-        run: npm run build
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-
-      - name: Package the Electron app
-        run: npm run package
-
-      - name: Verify the packaged files
-        run: |
-          ls -la assets fastflags help logs || echo "One or more directories are missing"
-
-      - name: List files in directories
-        run: |
-          echo "Listing contents of the assets directory:"
-          find assets || echo "No files in assets"
-          echo "Listing contents of the fastflags directory:"
-          find fastflags || echo "No files in fastflags"
-          echo "Listing contents of the help directory:"
-          find help || echo "No files in help"
-          echo "Listing contents of the logs directory:"
-          find logs || echo "No files in logs"
-
-      - name: Create a new branch for Electron build artifacts
-        run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "GitHub Actions"
-          git checkout -b build-artifacts
-
-          # Add files from the assets folder if it exists and contains JPG files
-          if [ -d "assets" ]; then git add assets/*.jpg; fi
-          
-          # Add files from the fastflags folder
-          if [ -d "fastflags" ]; then git add fastflags/**/*; fi
-
-          # Add files from the help folder (including subdirectories)
-          if [ -d "help" ]; then git add help/*; fi
-
-          # Add files from the logs folder
-          if [ -d "logs" ]; then git add logs/**/*; fi
-
-          git commit -m "Add Electron build artifacts"
-          git push origin build-artifacts
-
-      - name: Create a Pull Request for the Electron build
-        uses: peter-evans/create-pull-request@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          title: "New Electron Build"
-          body: "This PR contains the newly built Electron app."
-          base: main
-          head: build-artifacts
+          update-branch: true
